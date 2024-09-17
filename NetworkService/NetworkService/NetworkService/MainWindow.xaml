@@ -1,0 +1,72 @@
+﻿<Window x:Class="NetworkService.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NetworkService"
+        xmlns:views="clr-namespace:NetworkService.Views"
+        xmlns:viewModel="clr-namespace:NetworkService.ViewModel"
+        mc:Ignorable="d"
+         Title="" Height="880" Width="520"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        BorderBrush="Transparent"
+        x:Name="mainWindow"
+        AllowsTransparency="True">
+  
+    <Window.DataContext>
+        <viewModel:MainWindowViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:TableViewModel}">
+            <views:TableView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:DragAndDropViewModel}">
+            <views:DragAndDropView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:GraphViewModel}">
+            <views:GraphView/>
+        </DataTemplate>
+    </Window.Resources>
+        <!-- Your window content goes here -->
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="#E6F7FF">
+            <Button Width="68" BorderThickness="0" Padding="8" Content="Close X" HorizontalAlignment="Left" Margin="27,16,0,5.2" Background="Red" Foreground="White" Cursor="Hand" Command="{Binding CloseCommand}">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="2" Background="AliceBlue">
+
+            <DockPanel Background="AliceBlue" HorizontalAlignment="Center" Margin="0,0,0,-0.6" Width="520">
+                <Menu DockPanel.Dock="Top" Padding="20" Background="Transparent" Margin="104,0,63,0" >
+                    <MenuItem Height="50"   Foreground="Gray" FontSize="30" Header="🏠" Command="{Binding NavCommand}" CommandParameter="table" Width="75" />
+                    <MenuItem Height="50" FontSize="30" Header="🏁" Foreground="Gray" Command="{Binding NavCommand}" CommandParameter="dragAndDrop" Width="76" />
+                    <MenuItem Height="50" FontSize="30" Header="📊" Foreground="Gray" Command="{Binding NavCommand}" CommandParameter="graph" Width="73" />
+                    <MenuItem Height="43" FontSize="30" Header="↩️" Foreground="Gray"  Width="86" Command="{Binding UndoCommand}" />
+                </Menu>
+            </DockPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+
+
+            <ContentControl Content="{Binding CurrentViewModel}"></ContentControl>
+
+        </Grid>
+
+
+
+    </Grid>
+</Window>

@@ -1,0 +1,327 @@
+﻿<UserControl x:Class="NetworkService.Views.DragAndDropView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NetworkService.Views"
+             xmlns:viewModel="clr-namespace:NetworkService.ViewModel"
+             xmlns:model="clr-namespace:NetworkService.Model"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+
+
+             mc:Ignorable="d" 
+             d:DesignHeight="880" d:DesignWidth="520"
+             Background="#E6F7FF">
+    <UserControl.DataContext>
+        <viewModel:DragAndDropViewModel/>
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="Transparent">
+        <TreeView
+                Name="EntitiesTreeView"
+                Background="LightGray"
+                ItemsSource="{Binding GroupedEntitiesList}" Margin="52,125,50,517"
+            
+
+
+            >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding StartDragCommand}" CommandParameter="{Binding ElementName=EntitiesTreeView}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <TreeView.Resources>
+                <HierarchicalDataTemplate  DataType="{x:Type viewModel:GroupedEntitiesViewModel}" ItemsSource="{Binding Entities}">
+
+
+                    <TextBlock FontWeight="SemiBold" FontSize="16" Text="{Binding Type.NazivTipa}" />
+
+                </HierarchicalDataTemplate>
+                <DataTemplate DataType="{x:Type model:Entity}">
+
+                    <TextBlock VerticalAlignment="Center" Text="{Binding Naziv}"  FontSize="10" />
+
+                </DataTemplate>
+
+            </TreeView.Resources>
+
+        </TreeView>
+        <TextBlock HorizontalAlignment="Left" FontSize="20" Height="34" Margin="52,60,0,0" TextWrapping="Wrap" Text="Drag And Drop View" VerticalAlignment="Top" Width="242"/>
+        <TextBlock HorizontalAlignment="Left" Height="26" Margin="60,100,0,0" TextWrapping="Wrap" Text="Entities TreeView:" FontSize="16" VerticalAlignment="Top" Width="146"/>
+        <Grid HorizontalAlignment="Left" Height="390" Margin="60,352,0,0" VerticalAlignment="Top" Width="410">
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="FontSize" Value="16"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid  Grid.Row="0" Grid.Column="0" Width="103">
+                <Canvas  Name="Canvas1" Width="100" Margin="-6,8,9,7.6" Background="Gray" AllowDrop="True">
+                    <TextBlock Text="X" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100"></TextBlock>
+                    <TextBlock Text="0" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100" Canvas.Top="33"></TextBlock>
+
+                    <Button Content="Remove" Canvas.Top="64" Width="100" Height="18" Background="#FF6666">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=Canvas1}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Drop">
+                            <i:InvokeCommandAction Command="{Binding DropCommand}" CommandParameter="{Binding ElementName=Canvas1}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Canvas>
+            </Grid>
+
+            <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0.4" Width="103">
+                <Canvas Name="Canvas2" Width="100" Margin="8" Background="Gray" AllowDrop="True" >
+                    <TextBlock Text="X" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100"></TextBlock>
+                    <TextBlock Text="0" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100" Canvas.Top="33"></TextBlock>
+
+                    <Button Content="Remove" Canvas.Top="64" Width="100" Height="18" Background="#FF6666">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=Canvas2}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Drop">
+                            <i:InvokeCommandAction Command="{Binding DropCommand}" CommandParameter="{Binding ElementName=Canvas2}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Canvas>
+
+            </Grid>
+            <Grid Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" Margin="0.2,0,0,0.6" Width="103">
+                <Canvas Name="Canvas3" Width="100" Margin="8" Background="Gray" AllowDrop="True">
+                    <TextBlock Text="X" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100"/>
+                    <TextBlock Text="0" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100" Canvas.Top="33"></TextBlock>
+
+                    <Button Content="Remove" Canvas.Top="63" Width="100" Height="18"  Background="#FF6666">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=Canvas3}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Drop">
+                            <i:InvokeCommandAction Command="{Binding DropCommand}" CommandParameter="{Binding ElementName=Canvas3}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Canvas>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,0,0.4" Width="103">
+                <Canvas Name="Canvas4" Width="100" Margin="8" Background="Gray" AllowDrop="True" >
+                    <TextBlock Text="X" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100"></TextBlock>
+                    <TextBlock Text="0" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100" Canvas.Top="33"></TextBlock>
+
+                    <Button Content="Remove" Canvas.Top="64" Width="100" Height="18" Background="#FF6666">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=Canvas4}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Drop">
+                            <i:InvokeCommandAction Command="{Binding DropCommand}" CommandParameter="{Binding ElementName=Canvas4}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Canvas>
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0.4" Width="103">
+                <Canvas Width="100" Margin="8" Background="Gray" Name="Canvas5" AllowDrop="True">
+                    <TextBlock Text="X" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100"></TextBlock>
+                    <TextBlock Text="0" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100" Canvas.Top="33"></TextBlock>
+
+                    <Button Content="Remove" Canvas.Top="64" Width="100" Height="18" Background="#FF6666">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=Canvas5}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Drop">
+                            <i:InvokeCommandAction Command="{Binding DropCommand}" CommandParameter="{Binding ElementName=Canvas5}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Canvas>
+
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Margin="0,0,0,0.4" Width="103">
+                <Canvas Width="100" Margin="8" Background="Gray" Name="Canvas6" AllowDrop="True">
+                    <TextBlock Text="X" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100"></TextBlock>
+                    <TextBlock Text="0" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100" Canvas.Top="33"></TextBlock>
+
+                    <Button Content="Remove" Canvas.Top="64" Width="100" Height="18" Background="#FF6666">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=Canvas6}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Drop">
+                            <i:InvokeCommandAction Command="{Binding DropCommand}" CommandParameter="{Binding ElementName=Canvas6}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Canvas>
+
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,0,0.4" Width="103">
+                <Canvas Width="100" Margin="8" Background="Gray" Name="Canvas7" AllowDrop="True">
+                    <TextBlock Text="X" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100"></TextBlock>
+                    <TextBlock Text="0" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100" Canvas.Top="33"></TextBlock>
+
+                    <Button Content="Remove" Canvas.Top="64" Width="100" Height="18" Background="#FF6666">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=Canvas7}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Drop">
+                            <i:InvokeCommandAction Command="{Binding DropCommand}" CommandParameter="{Binding ElementName=Canvas7}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Canvas>
+
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0.4" Width="103">
+                <Canvas Width="100" Margin="8" Background="Gray" Name="Canvas8" AllowDrop="True">
+                    <TextBlock Text="X" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100"></TextBlock>
+                    <TextBlock Text="0" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100" Canvas.Top="33"></TextBlock>
+
+                    <Button Content="Remove" Canvas.Top="64" Width="100" Height="18" Background="#FF6666">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=Canvas8}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Drop">
+                            <i:InvokeCommandAction Command="{Binding DropCommand}" CommandParameter="{Binding ElementName=Canvas8}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Canvas>
+
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Margin="0,0,0,0.4" Width="103">
+                <Canvas Width="100" Margin="8" Background="Gray" Name="Canvas9" AllowDrop="True">
+                    <TextBlock Text="X" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100"></TextBlock>
+                    <TextBlock Text="0" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100" Canvas.Top="33"></TextBlock>
+
+                    <Button Content="Remove" Canvas.Top="64" Width="100" Height="18" Background="#FF6666">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=Canvas9}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Drop">
+                            <i:InvokeCommandAction Command="{Binding DropCommand}" CommandParameter="{Binding ElementName=Canvas9}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Canvas>
+
+            </Grid>
+            <Grid Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,0,0.4" Width="103">
+                <Canvas Width="100" Margin="8" Background="Gray" Name="Canvas10" AllowDrop="True">
+                    <TextBlock Text="X" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100"></TextBlock>
+                    <TextBlock Text="0" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100" Canvas.Top="33"></TextBlock>
+
+                    <Button Content="Remove" Canvas.Top="64" Width="100" Height="18" Background="#FF6666">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=Canvas10}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Drop">
+                            <i:InvokeCommandAction Command="{Binding DropCommand}" CommandParameter="{Binding ElementName=Canvas10}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Canvas>
+
+            </Grid>
+            <Grid Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0.4" Width="103">
+                <Canvas Width="100" Margin="8" Background="Gray" Name="Canvas11" AllowDrop="True">
+                    <TextBlock Text="X" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100"></TextBlock>
+                    <TextBlock Text="0" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100" Canvas.Top="33"></TextBlock>
+
+                    <Button Content="Remove" Canvas.Top="64" Width="100" Height="18" Background="#FF6666">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=Canvas11}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Drop">
+                            <i:InvokeCommandAction Command="{Binding DropCommand}" CommandParameter="{Binding ElementName=Canvas11}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Canvas>
+
+            </Grid>
+            <Grid Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" Margin="0,0,0,0.4" Width="103">
+                <Canvas Width="100" Margin="8" Background="Gray" Name="Canvas12" AllowDrop="True">
+                    <TextBlock Text="X" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100"></TextBlock>
+                    <TextBlock Text="0" HorizontalAlignment="Center" TextAlignment="Center" Foreground="Red" Width="100" Canvas.Top="33"></TextBlock>
+
+                    <Button Content="Remove" Canvas.Top="64" Width="100" Height="18" Background="#FF6666">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=Canvas12}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Drop">
+                            <i:InvokeCommandAction Command="{Binding DropCommand}" CommandParameter="{Binding ElementName=Canvas12}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Canvas>
+
+            </Grid>
+        </Grid>
+        <TextBlock HorizontalAlignment="Left" Height="28" FontSize="16" Margin="64,324,0,0" TextWrapping="Wrap" Text="Entities Grid View:" VerticalAlignment="Top" Width="147"/>
+
+
+    </Grid>
+</UserControl>
